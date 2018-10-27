@@ -23,5 +23,4 @@ galaxy_info:
         - stretch
   categories:
     - monitoring
-dependencies:
-  - {name: geerlingguy.apache, src: geerlingguy.apache, tags: apache}
+dependencies: []

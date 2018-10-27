@@ -1,13 +1,20 @@
 ---
-apache_user: www-data
-apache_group: www-data
-apache_log: apache2
+www_user: www-data
+www_group: www-data
 
-ubuntu_packages:
-  - libapache2-mod-php
-  - php-bcmath
+ubuntu_packages: []
+
+ignore_depends:
   - php-mbstring
-  - php-ldap
-  - php-{{ zabbix_server_database }}
+  - php-bcmath
   - php-xml
+  - apache2
+  - libapache2-mod-php
+  - php
+  - php-mysql
+  - php-pgsql
   - php-gd
+  - php-ldap
+
+zabbix_web_add_packages:
+  - ttf-dejavu-core

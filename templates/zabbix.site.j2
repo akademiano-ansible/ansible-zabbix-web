@@ -1,0 +1,39 @@
+server {
+  listen {{ zabbix_web_port }};
+  server_name {{ zabbix_web_servername }} {{ zabbix_web_aliases|join(' ') }};
+
+  root /usr/share/zabbix;
+
+  index index.php index.html;
+
+  include referer-spam;
+
+  set $path_info $fastcgi_path_info;
+  fastcgi_param PATH_INFO $path_info;
+
+  location / {
+      index index.php index.html;
+      try_files $uri $uri/ @php;
+  }
+
+  location ^~ /\. {
+      deny all;
+  }
+
+  location ~ \.php$ {
+      try_files $fastcgi_script_name =404;
+      fastcgi_pass php-www;
+      include fastcgi_params;
+  }
+
+  location @php {
+      fastcgi_pass   php-www;
+      include fastcgi_params;
+      fastcgi_param  SCRIPT_FILENAME  /usr/share/zabbix/index.php;
+      fastcgi_param  SCRIPT_NAME      index.php;
+  }
+
+
+  access_log /var/log/nginx/zabbix.site.access.log extlog;
+  error_log /var/log/nginx/zabbix.site.error.log;
+}
