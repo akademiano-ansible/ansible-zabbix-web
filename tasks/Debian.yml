@@ -43,17 +43,37 @@
     - init
     - config
 
-- name: "Debian | Install  zabbix-web | download packages"
-  command: apt-get download zabbix-frontend-php
-  args:
-    chdir: /tmp
-    creates: /usr/share/zabbix/index.php
+- name: "Debian | Install zabbix-web | Apache | install"
+  apt:
+    pkg: apache2
+    state: "{{ zabbix_web_package_state }}"
+    update_cache: yes
+    cache_valid_time: 60
+  tags:
+    - zabbix-web
+    - init
+    - config
 
-- name: "Debian | Install  zabbix-web | install packages"
-  shell: "dpkg -i --ignore-depends={{ignore_depends|join(',')}}  zabbix-frontend-php_*.deb"
-  args:
-    chdir: /tmp
-    creates: /usr/share/zabbix/index.php
+- name: "Debian | Install zabbix-web | Apache | disable"
+  service:
+    name: apache2   
+    state: stopped
+    enabled: no
+  tags:
+    - zabbix-web
+    - init
+    - config
+
+- name: "Debian | Install zabbix-web | install packages"
+  apt:
+    pkg: "zabbix-frontend-php"
+    state: "{{ zabbix_web_package_state }}"
+    update_cache: yes
+    cache_valid_time: 60
+  tags:
+    - zabbix-web
+    - init
+    - config
 
 - name: "Debian | Link graphfont.ttf (workaround ZBX-10467)"
   file:
@@ -64,6 +84,3 @@
     - zabbix-web
     - init
     - config
-
-- name: hold nginx zabbix
-  command: apt-mark hold zabbix-frontend-php
