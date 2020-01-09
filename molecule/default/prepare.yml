@@ -10,24 +10,22 @@
 
     - name: "Installing packages"
       yum:
-        name: "{{ item }}"
+        name:
+          - net-tools
+          - which
+          - libselinux-python
+          - python-pip
         state: present
-      with_items:
-        - net-tools
-        - which
-        - libselinux-python
-        - python-pip
       register: installation_dependencies
       when: ansible_distribution == 'CentOS'
 
     - name: "Installing which on NON-CentOS"
       apt:
-        name: "{{ item }}"
+        name:
+          - net-tools
+          - python-pip
+          - curl
         state: present
-      with_items:
-        - net-tools
-        - python-pip
-        - curl
       when: ansible_distribution != 'CentOS'
 
     - name: "Configure SUDO."
@@ -46,6 +44,14 @@
       pip:
         name: py-zabbix
         state: present
+
+    - name: "Create group for imaginary host"
+      add_host:
+        name: imaginary-host
+        groups:
+          - mysql
+          - postgresql
+      changed_when: False
 
   roles:
     - role: geerlingguy.postgresql

@@ -1,23 +1,26 @@
 ---
 # defaults file for zabbix-web
 
-zabbix_version: 4.2
+zabbix_version: 4.4
 zabbix_repo: zabbix
 zabbix_web_package_state: present
 zabbix_selinux: False
 
 zabbix_url: zabbix.example.com
-zabbix_apache_servername: "{{ zabbix_url | regex_findall('(?:https?\\://)?([\\w\\.]+)') | first }}"
+zabbix_websrv: nginx
+zabbix_websrv_servername: "{{ zabbix_url | regex_findall('(?:https?\\://)?([\\w\\-\\.]+)') | first }}"
 zabbix_url_aliases: []
 zabbix_web_port: 80
 zabbix_apache_vhost_tls_port: 443
 zabbix_timezone: Europe/Amsterdam
 zabbix_vhost: True
+zabbix_apache_vhost_listen_ip: "*"
 zabbix_apache_tls: False
 zabbix_apache_redirect: False
 zabbix_apache_tls_crt: /etc/pki/server.crt
 zabbix_apache_tls_key: /etc/pki/server.key
 zabbix_apache_tls_chain:
+zabbix_apache_can_connect_ldap: False
 
 zabbix_repo_yum:
   - name: zabbix
@@ -33,6 +36,7 @@ zabbix_repo_yum:
     gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
     state: present
 
+zabbix_php_install: false
 zabbix_web_max_execution_time: 300
 zabbix_web_memory_limit: 128M
 zabbix_web_post_max_size: 16M
@@ -50,10 +54,26 @@ zabbix_server_database_long: postgresql
 zabbix_server_name: "{{ inventory_hostname }}"
 zabbix_server_hostname: "{{ inventory_hostname }}"
 zabbix_server_listenport: 10051
-#zabbix_server_dbhost: 
+#zabbix_server_dbhost:
 zabbix_server_dbname: zabbix-server
 zabbix_server_dbuser: zabbix-server
 zabbix_server_dbpassword: zabbix-server
 zabbix_server_dbport: 5432
 
 zabbix_web_aliases: []
+
+# Elasticsearch
+# zabbix_server_history_url:
+#  - "'uint' => 'http://localhost:9200'"
+#  - "'text' => 'http://localhost:9200'"
+#  - "'log' => 'http://localhost:9200'"
+#  - "'dbl' => 'http://localhost:9200'"
+#  - "'str' => 'http://localhost:9200'"
+zabbix_server_history_types:
+  - 'str'
+  - 'text'
+  - 'log'
+  - 'uint'
+  - 'dbl'
+
+selinux_allow_zabbix_can_network: False

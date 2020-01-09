@@ -23,7 +23,8 @@
   apt_repository:
     repo: "{{ item }} http://repo.zabbix.com/zabbix/{{ zabbix_version }}/{{ ansible_distribution.lower() }}/ {{ ansible_distribution_release }} main"
     state: present
-  when: zabbix_repo == "zabbix"
+  when:
+    - zabbix_repo == "zabbix"
   with_items:
     - deb-src
     - deb
@@ -49,6 +50,8 @@
     state: "{{ zabbix_web_package_state }}"
     update_cache: yes
     cache_valid_time: 60
+  register: zabbix_web_package_install
+  until: zabbix_web_package_install is succeeded
   tags:
     - zabbix-web
     - init
@@ -56,7 +59,7 @@
 
 - name: "Debian | Install zabbix-web | Apache | disable"
   service:
-    name: apache2   
+    name: apache2
     state: stopped
     enabled: no
   tags:

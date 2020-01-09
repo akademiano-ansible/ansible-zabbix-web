@@ -1,8 +1,43 @@
-#ansible-zabbix-web Release
+# ansible-zabbix-web Release
 
 Below an overview of all changes in the releases.
 
 Version (Release date)
+
+UNRELEASED:
+
+1.5.0   (2019-12-01)
+
+  * Added vhost interface variable #55 (By pull request: okgolove (Thanks!))
+  * Minor changes for molecule #56
+  * Make Apache optional but keep as default; Closes dj-wasabi/ansible-zabbix-web#58 #59 (By pull request: kr4ut (Thanks!))
+  * Refactor PHP pkg install for Debian/Ubuntu; Closes dj-wasabi/ansible-zabbix-web#57 #60 (By pull request: kr4ut (Thanks!))
+  * Add update_cache: yes to tasks/RedHat.yml #64 (By pull request: patsevanton (Thanks!))
+  * readme update that default is 4.2 #67 (By pull request: fabtho (Thanks!))
+  * Update main.yml #68 (By pull request: Vinclame (Thanks!))
+  * SELinux boolean added for httpd -> ldap connections #69 (By pull request: Vinclame (Thanks!))
+  * Zabbix 44 #71
+  * Using travis envs #72
+
+1.4.0   (2019-04-14)
+
+  * Fixing the rights for config file #39
+  * Fixing the require line #40
+  * Removed the _type string in various places #42
+  * adds support for elasticsearch history storage #43 (By pull request: MartinHell (Thanks!))
+  * Always include OS variables #44 (By pull request: jrgoldfinemiddleton (Thanks!))
+  * skip repo file when zabbix_repo="other" #45 (By pull request: wschaft (Thanks!))
+  * Removal of links to files provided by Zabbix #47
+  * Fix apt module deprecation notice #49 (By pull request: logan2211 (Thanks!))
+  * fix apache servername regex to support hyphen character #51 (By pull request: wschaft (Thanks!))
+  * get the apache version also in check mode #52 (By pull request: wschaft (Thanks!))
+  * Updating to Zabbix 4.2 #53
+
+1.3.0   (2018-10-20)
+
+  * Add zabbix 40 #33
+  * Modify use of zabbix server packages #35 (By pull request: average-joe (Thanks!))
+  * Fix for: update readme to include correct examples #32
 
 1.2.0   (2018-09-11)
 
