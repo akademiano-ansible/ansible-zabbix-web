@@ -12,15 +12,6 @@
   tags:
     - always
 
-- include_tasks: apache.yml
-  when: zabbix_websrv == 'apache'
-
-- name: "Install the correct repository"
-  include: "RedHat.yml"
-  when: ansible_os_family == "RedHat"
-  tags:
-    - zabbix-web
-
 - name: "Install the correct repository"
   include: "Debian.yml"
   when: ansible_os_family == "Debian"
@@ -63,23 +54,3 @@
     - zabbix-web
     - init
     - config
-
-- name: "Allow httpd to connect to db (SELinux)"
-  seboolean:
-    name: httpd_can_network_connect_db
-    persistent: yes
-    state: yes
-  when:
-    - ansible_selinux.status == "enabled"
-    - selinux_allow_zabbix_can_network
-  tags: selinux
-
-- name: "Allow httpd to connect to ldap (SELinux)"
-  seboolean:
-    name: httpd_can_connect_ldap
-    persistent: yes
-    state: yes
-  when:
-    - ansible_selinux.status == "enabled"
-    - zabbix_apache_can_connect_ldap|bool
-  tags: selinux

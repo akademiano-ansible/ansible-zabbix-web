@@ -2,19 +2,5 @@
 www_user: www-data
 www_group: www-data
 
-ubuntu_packages: []
-
-ignore_depends:
-  - php-mbstring
-  - php-bcmath
-  - php-xml
-  - apache2
-  - libapache2-mod-php
-  - php
-  - php-mysql
-  - php-pgsql
-  - php-gd
-  - php-ldap
-
 zabbix_web_add_packages:
   - ttf-dejavu-core

@@ -44,28 +44,6 @@
     - init
     - config
 
-- name: "Debian | Install zabbix-web | Apache | install"
-  apt:
-    pkg: apache2
-    state: "{{ zabbix_web_package_state }}"
-    update_cache: yes
-    cache_valid_time: 60
-  register: zabbix_web_package_install
-  until: zabbix_web_package_install is succeeded
-  tags:
-    - zabbix-web
-    - init
-    - config
-
-- name: "Debian | Install zabbix-web | Apache | disable"
-  service:
-    name: apache2
-    state: stopped
-    enabled: no
-  tags:
-    - zabbix-web
-    - init
-    - config
 
 - name: "Debian | Install zabbix-web | install packages"
   apt:
